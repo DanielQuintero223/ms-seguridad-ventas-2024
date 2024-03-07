@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
+import {Login} from './login.model';
+import {Rol} from './rol.model';
 
 @model()
 export class Usuario extends Entity {
@@ -45,10 +47,29 @@ export class Usuario extends Entity {
 
   @property({
     type: 'string',
-    required: true,
   })
-  clave: string;
+  clave?: string;
 
+  @property({
+    type: 'string',
+  })
+  hashValidacion?: string;
+
+  @property({
+    type: 'boolean',
+  })
+  estadoValidacion?: boolean;
+
+  @property({
+    type: 'boolean',
+  })
+  aceptado?: boolean;
+
+  @hasMany(() => Login)
+  logins: Login[];
+
+  @belongsTo(() => Rol)
+  rolId: string;
 
   constructor(data?: Partial<Usuario>) {
     super(data);
